@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using System.Net.Sockets;
+using System.Diagnostics;
 
 namespace StarMade_Remote_Start_Server
 {
@@ -47,13 +48,13 @@ namespace StarMade_Remote_Start_Server
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 whiteListPath = folderBrowserDialog1.SelectedPath;
+                Debug.WriteLine(whiteListPath.Length.ToString());
                 whiteListLbl.Text = folderBrowserDialog1.SelectedPath;
                 folderBrowserDialog1.Reset();
                 whiteListSet = true;
+                whiteListReader ipLoader = new whiteListReader(Path.Combine(whiteListPath, "whitelist.txt"));
+                allowedIPs = ipLoader.getJaggedIps();
             }
-            whiteListReader ipLoader = new whiteListReader(Path.Combine(whiteListPath, "whitelist.txt"));
-            allowedIPs = ipLoader.getJaggedIps();
-
         }
 
         private void startBtn_Click(object sender, EventArgs e)
